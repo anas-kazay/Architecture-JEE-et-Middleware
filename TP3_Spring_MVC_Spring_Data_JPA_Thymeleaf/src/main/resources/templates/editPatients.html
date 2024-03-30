@@ -17,7 +17,7 @@
                 <div class="card-header">Nouveau Patient</div>
                 <div class="card-body">
                     <div class="p-3">
-                        <form th:action="@{/savePatient}" method="post" >
+                        <form th:action="@{/admin/savePatient}" method="post" >
                             <div class="mb-2">
                                 <input type="hidden" name="id" class="form-control" th:value="${patient.id}">
                                 <span th:errors="${patient.id}" class="text-danger"></span>
