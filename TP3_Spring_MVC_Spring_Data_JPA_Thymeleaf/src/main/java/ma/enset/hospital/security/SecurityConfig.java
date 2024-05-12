@@ -3,6 +3,7 @@ package ma.enset.hospital.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -42,14 +43,19 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.formLogin();
+        httpSecurity.formLogin(Customizer.withDefaults());
         //httpSecurity.authorizeHttpRequests().
        //         requestMatchers("/admin/**").hasRole("ADMIN");
         //httpSecurity.authorizeHttpRequests().
          //       requestMatchers("/user/**").hasRole("USER");
-        httpSecurity.authorizeHttpRequests().anyRequest().authenticated();
+        httpSecurity.authorizeHttpRequests(ar->ar.requestMatchers("/deletePatient/**").hasRole("ADMIN"));
+        httpSecurity.authorizeHttpRequests(ar->ar.requestMatchers("/admin/**").hasRole("ADMIN"));
+        httpSecurity.authorizeHttpRequests(ar->ar.requestMatchers("/user/**").hasRole("USER"));
+        httpSecurity.authorizeHttpRequests(ar->ar.anyRequest().authenticated());
         httpSecurity.exceptionHandling().accessDeniedPage("/403");
+
                 return httpSecurity.build();
+
 
     }
 }
